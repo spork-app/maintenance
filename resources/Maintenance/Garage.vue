@@ -6,19 +6,20 @@
             singular="Vehicle"
             @save="save"
             @destroy="onDelete"
-            @index="() => $store.dispatch('fetchVehicles')"
+            @index="() => ''"
             @execute="onExecute"
             :data="$store.getters.vehicles"
+            :paginator="$store.getters.featuresPagination"
         >
             <template v-slot:data="{ data }">
                 <div class="flex flex-col">
                     <div class="text-lg text-left">
-                        {{ data.year }}
-                        {{ data.make }}
-                        {{ data.model }}
+                        {{ data.settings.year }}
+                        {{ data.settings.make }}
+                        {{ data.settings.model }}
                     </div>
                     <div class="text-xs">
-                        {{ data.vin }}
+                        {{ data.settings.vin }}
                     </div>
                 </div>
             </template>
@@ -38,7 +39,7 @@
                         <label class="block text-sm font-bold mb-2" for="property">
                             VIN
                         </label>
-                        <spork-input v-model="form.vin" :class="{'border-red-500': form.hasErrors('vin') }" id="property" type="text" placeholder="1FAFP52..." />
+                        <spork-input v-model="form.settings.vin" :class="{'border-red-500': form.hasErrors('vin') }" id="property" type="text" placeholder="1FAFP52..." />
                         <div v-if="form.hasErrors('vin')" class="w-full text-red-500 text-sm italic">
                             {{ form.error('vin')}}
                         </div>
@@ -47,7 +48,7 @@
                         <label class="block text-sm font-bold mb-2" for="property">
                             Vehicle year:
                         </label>
-                        <select v-model="form.model_year" :class="{'border-red-500': form.hasErrors('model_year') }" class="appearance-none border border-gray-300 dark:border-gray-600 rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-500">
+                        <select v-model="form.settings.model_year" :class="{'border-red-500': form.hasErrors('model_year') }" class="appearance-none border border-gray-300 dark:border-gray-600 rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-500">
                             <option v-for="year in years" :key="'year'+year" :value="year">{{ year }}</option>
                         </select>
                         <div v-if="form.hasErrors('model_year')" class="w-full text-red-500 text-sm italic">
@@ -58,7 +59,7 @@
                     
                     <div class="w-full flex items-center px-4">
                         <div class="flex items-center h-5">
-                            <input id="track_oil_changes" name="track_oil_changes" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                            <input v-model="form.settings.track_oil_changes" id="track_oil_changes" name="track_oil_changes" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                         </div>
                         <div class="ml-3 text-sm">
                             <label for="track_oil_changes" class="font-medium">Track oil changes?</label>
@@ -68,7 +69,7 @@
                     
                     <div class="w-full  flex items-center px-4">
                         <div class="flex items-center h-5">
-                            <input id="track_oem" name="track_oem" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                            <input v-model="form.settings.track_oem_maintenance" id="track_oem" name="track_oem" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                         </div>
                         <div class="ml-3 text-sm">
                             <label for="track_oem" class="font-medium">Track OEM recommended maintenance?</label>
@@ -95,8 +96,13 @@ export default {
             page: ref(1),
             createOpen: ref(false),
             form: ref(new Form({
-                vin: '',
-                model_year: (new Date).getFullYear(),
+                name: '',
+                settings: {
+                    vin: '',
+                    model_year: (new Date).getFullYear(),
+                    track_oil_changes: false,
+                    track_oem_maintenance: false,
+                }
             })),
             years: Array(200).fill(1, 0, 200).map((i, year) => year + 1900),
             date: ref(new Date()),

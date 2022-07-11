@@ -13,7 +13,7 @@ class MaintenanceServiceProvider extends ServiceProvider
             __DIR__ . '/../database/migrations/' => database_path('migrations'),
         ], 'migrations');
 
-        Spork::addFeature('Garage', 'TruckIcon', '/maintenance/garage');
-        Spork::addFeature('Properties', 'HomeIcon', '/maintenance/properties');
+        Spork::addFeature('Garage', 'TruckIcon', '/maintenance/garage', 'crud'); 
+        Spork::addFeature('Properties', 'HomeIcon', '/maintenance/properties', 'crud');
     }
 }
