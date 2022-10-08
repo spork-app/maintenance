@@ -2,7 +2,7 @@
 
 namespace Spork\Maintenance;
 
-use App\Spork;
+use Spork\Core\Spork;
 use Illuminate\Support\ServiceProvider;
 
 class MaintenanceServiceProvider extends ServiceProvider

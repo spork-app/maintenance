@@ -2,7 +2,7 @@
 
 use App\Events\FeatureCreated;
 use App\Models\FeatureList;
-use App\Spork;
+use Spork\Core\Spork;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreatePropertyRemindersIfEnabledListener implements ShouldQueue
