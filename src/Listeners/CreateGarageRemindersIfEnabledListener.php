@@ -1,7 +1,7 @@
 <?php
 
-use App\Events\FeatureCreated;
-use App\Models\FeatureList;
+use Spork\Core\Events\FeatureCreated;
+use Spork\Core\Models\FeatureList;
 use Spork\Core\Spork;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -11,11 +11,11 @@ class CreateGarageRemindersIfEnabledListener implements ShouldQueue
     {
         $createdFeature = $event->featureList;
 
-        if (!Spork::hasFeature(FeatureList::FEATURE_REMINDERS)) {
+        if (!Spork::hasFeature('reminders')) {
             return;
         }
 
-        if ($createdFeature->feature !== FeatureList::FEATURE_REMINDERS) {
+        if ($createdFeature->feature !== 'reminders') {
             return;
         }
 
