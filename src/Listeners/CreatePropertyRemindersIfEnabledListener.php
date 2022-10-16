@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Spork\Core\Events\FeatureCreated;
 use Spork\Core\Models\FeatureList;
 use Spork\Core\Spork;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreatePropertyRemindersIfEnabledListener implements ShouldQueue
 {
@@ -11,7 +11,7 @@ class CreatePropertyRemindersIfEnabledListener implements ShouldQueue
     {
         $createdFeature = $event->featureList;
 
-        if (!Spork::hasFeature('reminders')) {
+        if (! Spork::hasFeature('reminders')) {
             return;
         }
 
@@ -19,17 +19,17 @@ class CreatePropertyRemindersIfEnabledListener implements ShouldQueue
             return;
         }
 
-        if (!$createdFeature->settings?->track_maintenance) {
+        if (! $createdFeature->settings?->track_maintenance) {
             // This property does not track maintenance reminders.
             return;
         }
-        
+
         $this->trackMaintenance($createdFeature);
     }
 
     protected function trackMaintenance(FeatureList $createdFeature)
     {
-        // Is it conditional to whether or not it's a primary residence? 
+        // Is it conditional to whether or not it's a primary residence?
         //
         // How does one draw up a maintenance schedule for a property?
         // - lawn work/gardening/Weeding? (maybe use rain info, drought info, etc to predict how long the weeds might be?)

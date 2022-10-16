@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Spork\Core\Events\FeatureCreated;
 use Spork\Core\Models\FeatureList;
 use Spork\Core\Spork;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateGarageRemindersIfEnabledListener implements ShouldQueue
 {
@@ -11,7 +11,7 @@ class CreateGarageRemindersIfEnabledListener implements ShouldQueue
     {
         $createdFeature = $event->featureList;
 
-        if (!Spork::hasFeature('reminders')) {
+        if (! Spork::hasFeature('reminders')) {
             return;
         }
 
@@ -19,11 +19,11 @@ class CreateGarageRemindersIfEnabledListener implements ShouldQueue
             return;
         }
 
-        if (!$createdFeature->settings?->track_maintenance) {
+        if (! $createdFeature->settings?->track_maintenance) {
             // This garage does not track maintenance reminders.
             return;
         }
-        
+
         $this->trackMaintenance($createdFeature);
     }
 
@@ -44,6 +44,6 @@ class CreateGarageRemindersIfEnabledListener implements ShouldQueue
             default:
                 // No code yet, still trying to figure out how I want this to work... :thinking:
                 break;
-        } 
+        }
     }
 }
