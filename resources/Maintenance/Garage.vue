@@ -4,7 +4,7 @@
             :form="form"
             title="Garage"
             singular="Vehicle"
-            @save="save"
+            :save="save"
             @destroy="onDelete"
             @index="() => ''"
             @execute="onExecute"
@@ -56,7 +56,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="w-full flex items-center px-4">
                         <div class="flex items-center h-5">
                             <input v-model="form.settings.track_oil_changes" id="track_oil_changes" name="track_oil_changes" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
@@ -66,7 +66,7 @@
                             <p class="text-gray-500 dark:text-gray-300">Get notified every few months to get an oil change. If configured with an OBD2 sensor, it will notify you every 8000 miles from the last reset..</p>
                         </div>
                     </div>
-                    
+
                     <div class="w-full  flex items-center px-4">
                         <div class="flex items-center h-5">
                             <input v-model="form.settings.track_oem_maintenance" id="track_oem" name="track_oem" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />

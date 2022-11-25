@@ -4,7 +4,7 @@
             :form="form"
             title="Properties"
             singular="Property"
-            @save="save"
+            :save="save"
             @destroy="onDelete"
             @index="() => ''"
             @execute="onExecute"
@@ -33,7 +33,7 @@
                             <label for="street-address" class="block text-sm font-medium">Street address</label>
                             <spork-input v-model="form.settings.address" type="text" name="street-address" id="street-address" />
                         </div>
-                        
+
                         <div class="col-span-6 sm:col-span-3">
                             <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Country</label>
                             <select v-model="form.settings.country" id="country" name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 dark:border-gray-500 dark:bg-gray-500 bg-white rounded-md shadow-sm focus:outline-none sm:text-sm">
@@ -140,7 +140,7 @@ export default {
             return '<span class="text-gray-900">' + property.starts_at  + '  at </span>' +
                 '<span class="text-gray-800">' + dayjs(property.last_occurrence || property.remind_at).format('h:mma') + '</span>'
         },
-        
+
         async save(form) {
             if (!form.id) {
                 this.$store.dispatch('createProperty', form)
